@@ -1,27 +1,33 @@
 <!-- src/App.svelte -->
 
 <script>
-  const rows = 5;
-  const ranks = 15;
-  var columns = ranks + 1;
-  let board = Array.from(new Array(rows * ranks)); // @hmr:keep
+  let rows = 5;
+  let ranks = 15;
+
+  import Board from './Board.svelte';
 </script>
 
 <style>
-  .App-header {
-    background-color: #f9f6f6;
-    color: #333;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
+  .App {
+    display:block;
+    margin: 0 2em 2em 2em;
+    padding: 2em;
+    color: #003;
+    background-color: #9FD3F1;
+  }
+  footer {
+    min-height: 3em;
+    display: inline-block;
+    text-align:right;
+    margin-bottom: 3rem;
+    width:95%;
+  }
+  footer a {
+    color: white;
   }
   .App-logo {
-    height: 36vmin;
+    height: 1em;
     pointer-events: none;
-    margin-bottom: 3rem;
     animation: App-logo-pulse infinite 1.6s ease-in-out alternate;
   }
   @keyframes App-logo-pulse {
@@ -29,22 +35,31 @@
       transform: scale(1);
     }
     to {
-      transform: scale(1.06);
+      transform: scale(1.5);
     }
   }
 </style>
 
 <div class="App">
-  <header class="App-header">
-    <img src="/logo.svg" class="App-logo" alt="logo" />
-    <a
-      class="App-link"
-      href="https://svelte.dev"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Learn Svelte
-    </a>
-  </header>
+
+  <label>Suits: </label>
+  <input type=number bind:value={rows} min=1 max=10>
+
+  <label>Ranks: </label>
+  <input type=number bind:value={ranks} min=2 max=30>
+
+  <Board rows={rows} ranks={ranks}/>
 
 </div>
+
+<footer>
+  <img src="/logo.svg" class="App-logo" alt="logo" />
+  <a
+    href="https://svelte.dev"
+    target="_blank"
+    rel="noopener noreferrer"
+    >
+    Learn Svelte
+  </a>
+</footer>
+
