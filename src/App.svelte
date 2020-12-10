@@ -1,10 +1,7 @@
 <!-- src/App.svelte -->
 
 <script>
-  let rows = 5;
-  let ranks = 15;
-
-  import Board from './Board.svelte';
+  import Game from './Game.svelte';
 </script>
 
 <style>
@@ -38,17 +35,12 @@
       transform: scale(1.5);
     }
   }
+  input {width: 3em;}
 </style>
 
 <div class="App">
 
-  <label>Suits: </label>
-  <input type=number bind:value={rows} min=1 max=10>
-
-  <label>Ranks: </label>
-  <input type=number bind:value={ranks} min=2 max=30>
-
-  <Board rows={rows} ranks={ranks}/>
+  <Game/>
 
 </div>
 

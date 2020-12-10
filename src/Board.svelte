@@ -5,27 +5,22 @@
   $: columns = ranks + 1;
   $: board = Array.from(new Array(rows * ranks)); // @hmr:keep
   $: boardArray = Array.from(Array(rows).keys()).map(row => Array.from(Array(columns).keys()));
+
+  import Deck from './Deck.svelte';
+  import Card from './Card.svelte';
 </script>
 
 <style>
-  row {display:block;}
-  square {
-    padding:0.3em;
-    display:inline-block;
-    height:2em;
-    width:2em;
-    border: 1px solid yellow;
-    text-align:center;
-  }
+  row {display:flex;}
 </style>
 
 
   <p>The board should be {rows} by {columns}.</p>
 
-{#each boardArray as row}
+{#each boardArray as row, i}
   <row>
   {#each row as column}
-    <square value={column}>{column}</square>
+    <Card suits={i} rank={column}/>
   {/each}
   </row>
 {/each}
