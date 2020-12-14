@@ -1,12 +1,12 @@
 <!-- src/Board.svelte -->
 
 <script>
-  export let rows, ranks;
-  $: columns = ranks + 1;
-  $: board = Array.from(new Array(rows * ranks)); // @hmr:keep
-  $: boardArray = Array.from(Array(rows).keys()).map(row => Array.from(Array(columns).keys()));
+  import { suits, ranks, deck, layout } from './stores'
 
-  import Deck from './Deck.svelte';
+  export let shift;
+  $: columns = $ranks + 1;
+
+  import BlankCard from './BlankCard.svelte';
   import Card from './Card.svelte';
 </script>
 
@@ -14,13 +14,13 @@
   row {display:flex;}
 </style>
 
+  <p>The board should be {$suits} by {columns}.  The deck should be {$suits * $ranks} cards.  The deck is {$deck.length} cards.</p>
 
-  <p>The board should be {rows} by {columns}.</p>
-
-{#each boardArray as row, i}
+{#each $layout as row}
   <row>
+    <BlankCard />
   {#each row as column}
-    <Card suits={i} rank={column}/>
+    <Card suit={$deck[column].suit} rank={$deck[column].rank}/>
   {/each}
   </row>
 {/each}
