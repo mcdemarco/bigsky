@@ -2,13 +2,18 @@
 
 //Create the deck from the suits and ranks.
 const create = (suits, ranks) => {
+  return space(shuffle(init(suits,ranks)),ranks);
+}
+
+//Populate 'em.
+const init = (suits,ranks) => {
   var deck = [];
   for (var s=1; s <= suits; s++) {
     for (var r=1; r <= ranks; r++) {
 			deck.push({suit: s, rank: r})
     }
   }
-  return shuffle(deck);
+	return deck;
 }
 
 //Shuffle 'em.
@@ -27,11 +32,25 @@ const shuffle = deck => {
   return deck;
 }
 
+//Space 'em.
+const space = (deck, ranks) => {
+  // insert blanks into the deck of cards
+	var newDeck = [];
+	//var blank = {suit: 0, rank: 0}];
+  for (var i = 0; i < deck.length; i++) {
+		if (i % ranks === 0)
+			newDeck.push({suit: 0, rank: 0});
+		newDeck.push(deck[i]);
+  }
+  return newDeck;
+}
+
 //Create the board layout.
-const deal = (suits, ranks) => {
+const deal = (suits, deck) => {
   var boardArray = [];
+	var ranks =  deck.length/suits;  //Not the external rank count; include spaces.
   for (var s=0; s < suits; s++) {
-    var row = [];
+		var row = [];
     for (var r=0; r < ranks; r++) {
       row.push(s*ranks + r);
     }
@@ -40,4 +59,4 @@ const deal = (suits, ranks) => {
   return boardArray;
 }
 
-export {create, shuffle, deal}
+export {create, deal}
