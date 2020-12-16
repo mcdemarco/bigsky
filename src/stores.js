@@ -14,8 +14,8 @@ export const deck = derived(
 );
 
 export const layout = derived(
-  [suits,deck],
-  ([$suits, $deck]) => {
-    return deal($suits, $deck);
+  [suits,ranks],
+  ([$suits, $ranks]) => {
+    return deal($suits, $ranks);
   }
 );

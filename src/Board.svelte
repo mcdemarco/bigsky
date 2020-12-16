@@ -6,6 +6,8 @@
   export let shift;
 
   import Card from './Card.svelte';
+
+console.log($layout);
 </script>
 
 <style>

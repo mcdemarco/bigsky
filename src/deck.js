@@ -2,14 +2,14 @@
 
 //Create the deck from the suits and ranks.
 const create = (suits, ranks) => {
-  return space(shuffle(init(suits,ranks)),ranks);
+  return respace(space(shuffle(init(suits,ranks)),ranks));
 }
 
 //Populate 'em.
 const init = (suits,ranks) => {
-  var deck = [];
-  for (var s=1; s <= suits; s++) {
-    for (var r=1; r <= ranks; r++) {
+  let deck = [];
+  for (let s=1; s <= suits; s++) {
+    for (let r=1; r <= ranks; r++) {
 			deck.push({suit: s, rank: r})
     }
   }
@@ -19,13 +19,13 @@ const init = (suits,ranks) => {
 //Shuffle 'em.
 const shuffle = deck => {
   // shuffle a deck of cards
-  for (var i = 0; i < deck.length; i++) {
+  for (let i = 0; i < deck.length; i++) {
     // move card from i to n
-    var n = 0;
-    while (n == 0 || n == i) {
+    let n = 0;
+    while (n === 0 || n === i) {
 			n = Math.floor(Math.random() * (deck.length - 1)) + 1;
     }
-    var temp = deck[i];
+    let temp = deck[i];
     deck[i] = deck[n];
     deck[n] = temp;
   }
@@ -35,9 +35,9 @@ const shuffle = deck => {
 //Space 'em.
 const space = (deck, ranks) => {
   // insert blanks into the deck of cards
-	var newDeck = [];
-	//var blank = {suit: 0, rank: 0}];
-  for (var i = 0; i < deck.length; i++) {
+	let newDeck = [];
+	//let blank = {suit: 0, rank: 0}];
+  for (let i = 0; i < deck.length; i++) {
 		if (i % ranks === 0)
 			newDeck.push({suit: 0, rank: 0});
 		newDeck.push(deck[i]);
@@ -45,14 +45,33 @@ const space = (deck, ranks) => {
   return newDeck;
 }
 
+//Respace 'em.  (5x15-specific)
+const respace = (deck) => {
+  // Swap 1's and blanks in the deck of cards
+	//Don't need any other sizes to do this.
+	let zeroes = [];
+	let ones = [];
+  for (let i = 0; i < deck.length; i++) {
+		if (deck[i].rank === 0)
+			zeroes.push(i);
+		if (deck[i].rank === 1)
+			ones.push(i);
+  }
+	for (let z = 0; z < zeroes.length; z++) {
+    deck[zeroes[z]] = deck[ones[z]];
+    deck[ones[z]] = {suit: 0, rank:0};
+	}
+  return deck;
+}
+
 //Create the board layout.
-const deal = (suits, deck) => {
-  var boardArray = [];
-	var ranks =  deck.length/suits;  //Not the external rank count; include spaces.
-  for (var s=0; s < suits; s++) {
-		var row = [];
-    for (var r=0; r < ranks; r++) {
-      row.push(s*ranks + r);
+const deal = (suits, ranks) => {
+  let boardArray = [];
+	let columns = ranks + 1; //Not the external rank count; include spaces.
+  for (let s=0; s < suits; s++) {
+		let row = [];
+    for (let r=0; r < columns; r++) {
+      row.push(s*columns + r);
     }
     boardArray.push(row);
   }

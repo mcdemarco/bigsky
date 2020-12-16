@@ -31,7 +31,7 @@
 
   const highlightCandidates = event => {
     //Highlight the candidate cards or spaces
-    console.log("Moused over " + deckIndex);
+    console.log("Moused over " + JSON.stringify($deck[deckIndex]));
   }
 
 </script>
