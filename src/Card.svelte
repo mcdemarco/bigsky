@@ -1,11 +1,8 @@
 <!-- src/Card.svelte -->
 
 <script>
-  export let deckIndex;
-  import { deck, layout } from './stores'
-
-  let rank = $deck[deckIndex].rank;
-  let suit = $deck[deckIndex].suit;
+  export let row, col;
+  import { layout } from './stores'
 
   const palette = ["#FF5050", "#FF9122", "#FBE426", "#1CBE4F", "#2ED9FF", "#DEA0FD",
 		   "#FA0087", "#C4451C", "#F7E1A0", "#1C8356", "#3283FE", "#AA0DFE",
@@ -14,9 +11,11 @@
 		   "#FF5151", "#B10DA1", "#F8A19F", "#FE00FA", "#A0A0A0"];
   const blankColor = "aliceblue";
 
-  $: paletteIndex = (suit - 1) % palette.length;
-  $: bgcolor = suit == 0 ? blankColor : palette[paletteIndex];
-  $: fgcolor = rank == 0 ? blankColor : contrastColor(palette[paletteIndex]);
+  const card = $layout[row][col];
+
+  $: paletteIndex = (card.suit - 1) % palette.length;
+  $: bgcolor = card.suit == 0 ? blankColor : palette[paletteIndex];
+  $: fgcolor = card.rank == 0 ? blankColor : contrastColor(palette[paletteIndex]);
 
   const contrastColor = color => {
     //color is an RGB color in the formats #abcdef
@@ -31,7 +30,7 @@
 
   const highlightCandidates = event => {
     //Highlight the candidate cards or spaces
-    console.log("Moused over " + JSON.stringify($deck[deckIndex]));
+    console.log("Moused over " + row + "," + col);
   }
 
 </script>
@@ -53,5 +52,4 @@
   }
 </style>
 
-<card style="color: {fgcolor}; background-color: {bgcolor};"
-      on:mouseover={highlightCandidates(deckIndex)}>{rank}</card>
+<card style="color: {fgcolor}; background-color: {bgcolor};" on:mouseover={highlightCandidates(row,col)}>{card.rank}</card>

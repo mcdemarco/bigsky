@@ -1,25 +1,23 @@
 <!-- src/Board.svelte -->
 
 <script>
-  import { deck, layout } from './stores'
+  import { layout } from './stores'
 
   export let shift;
 
   import Card from './Card.svelte';
-
-console.log($layout);
 </script>
 
 <style>
   row {display:flex;}
 </style>
 
-  <!--p>The board should be {$suits} by {columns}.  The deck should be {$suits * $ranks} cards.  The deck is {$deck.length} cards.</p-->
+  <!--p>The board should be {$suits} by {columns}.  The deck should be {$suits * $ranks} cards.</p-->
 
-{#each $layout as row}
+{#each $layout as row, r}
   <row>
-  {#each row as deckIndex}
-    <Card {deckIndex} />
+  {#each row as card, c}
+    <Card row={r} col={c} />
   {/each}
   </row>
 {/each}

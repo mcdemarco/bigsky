@@ -1,7 +1,7 @@
 <!-- src/Game.svelte -->
 
 <script>
-  import { suits, ranks, deck } from './stores'
+  import { suits, ranks } from './stores'
 
   let shift = 3;
 

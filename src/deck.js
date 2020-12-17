@@ -66,16 +66,17 @@ const respace = (deck) => {
 
 //Create the board layout.
 const deal = (suits, ranks) => {
+	let deck = create(suits, ranks);
   let boardArray = [];
 	let columns = ranks + 1; //Not the external rank count; include spaces.
   for (let s=0; s < suits; s++) {
 		let row = [];
     for (let r=0; r < columns; r++) {
-      row.push(s*columns + r);
+      row.push(deck[s*columns + r]);
     }
     boardArray.push(row);
   }
   return boardArray;
 }
 
-export {create, deal}
+export { deal };
