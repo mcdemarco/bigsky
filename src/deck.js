@@ -10,7 +10,7 @@ const init = (suits,ranks) => {
   let deck = [];
   for (let s=1; s <= suits; s++) {
     for (let r=1; r <= ranks; r++) {
-			deck.push({suit: s, rank: r})
+			deck = [...deck, {suit: s, rank: r}];
     }
   }
 	return deck;
@@ -39,8 +39,8 @@ const space = (deck, ranks) => {
 	//let blank = {suit: 0, rank: 0}];
   for (let i = 0; i < deck.length; i++) {
 		if (i % ranks === 0)
-			newDeck.push({suit: 0, rank: 0});
-		newDeck.push(deck[i]);
+			newDeck = [...newDeck, {suit: 0, rank: 0}];
+		newDeck = [...newDeck, deck[i]];
   }
   return newDeck;
 }
@@ -53,9 +53,9 @@ const respace = (deck) => {
 	let ones = [];
   for (let i = 0; i < deck.length; i++) {
 		if (deck[i].rank === 0)
-			zeroes.push(i);
+			zeroes = [...zeroes, i];
 		if (deck[i].rank === 1)
-			ones.push(i);
+			ones = [...ones, i];
   }
 	for (let z = 0; z < zeroes.length; z++) {
     deck[zeroes[z]] = deck[ones[z]];
@@ -72,11 +72,11 @@ const deal = (suits, ranks) => {
   for (let s=0; s < suits; s++) {
 		let row = [];
     for (let r=0; r < columns; r++) {
-      row.push(deck[s*columns + r]);
+      row = [...row, deck[s*columns + r]];
     }
-    boardArray.push(row);
+    boardArray = [...boardArray, row];
   }
   return boardArray;
 }
 
-export { deal };
+export { create };

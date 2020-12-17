@@ -243,3 +243,18 @@ div.waste {
     margin: 5px;
 }
 
+/* unsvelted */
+
+  card.lower {
+    border-color: tomato!important;
+  }
+  card.higher {
+    border-color: maroon!important;
+  }
+  card.hover {
+    border-color: red!important;;
+    opacity: 1 !important;
+  }
+  card.fade {
+    opacity: 0.5;
+  }

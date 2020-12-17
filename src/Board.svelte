@@ -3,6 +3,8 @@
 <script>
   import { layout } from './stores'
 
+  {$layout}
+
   export let shift;
 
   import Card from './Card.svelte';
@@ -16,7 +18,7 @@
 
 {#each $layout as row, r}
   <row>
-  {#each row as card, c}
+  {#each row as card, c (card)}
     <Card row={r} col={c} />
   {/each}
   </row>

@@ -2,7 +2,13 @@
 
 <script>
   export let row, col;
-  import { layout } from './stores'
+  import { layout, lookup } from './stores'
+
+  {$lookup}
+
+  let lower, higher;
+
+  //console.log($lookup);
 
   const palette = ["#FF5050", "#FF9122", "#FBE426", "#1CBE4F", "#2ED9FF", "#DEA0FD",
 		   "#FA0087", "#C4451C", "#F7E1A0", "#1C8356", "#3283FE", "#AA0DFE",
@@ -30,7 +36,35 @@
 
   const highlightCandidates = event => {
     //Highlight the candidate cards or spaces
-    console.log("Moused over " + row + "," + col);
+    let card = $layout[row][col];
+    let neighbors = $lookup[card.suit][card.rank];
+    console.log("Moused over " + JSON.stringify(card) + " " + JSON.stringify(neighbors));
+    if (neighbors.card) {
+      //Not present for blanks.
+      document.querySelectorAll("card").forEach(item => item.classList.add("fade"));
+      document.querySelector("#card_" + neighbors.card[0] + "_" + neighbors.card[1]).classList.add("hover");
+    }
+    if (neighbors.lower) {
+      document.querySelector("#card_" + neighbors.lower[0] + "_" + neighbors.lower[1]).classList.remove("fade");
+      document.querySelector("#card_" + neighbors.lower[0] + "_" + neighbors.lower[1]).classList.add("lower");
+    }
+    if (neighbors.higher) {
+      document.querySelector("#card_" + neighbors.higher[0] + "_" + neighbors.higher[1]).classList.remove("fade");
+      document.querySelector("#card_" + neighbors.higher[0] + "_" + neighbors.higher[1]).classList.add("higher");
+    }
+  }
+
+  const unhighlightCandidates = event => {
+    //Unhighlight the candidate cards or spaces
+    let card = $layout[row][col];
+    let neighbors = $lookup[card.suit][card.rank];
+
+    document.querySelectorAll("card").forEach(item => {
+      item.classList.remove("fade");
+      item.classList.remove("lower");
+      item.classList.remove("higher");
+      item.classList.remove("hover");
+    });
   }
 
 </script>
@@ -50,6 +84,11 @@
     font-family: 'Fortune Letters', Futura, Geneva, sans-serif;
     font-size: 2em;
   }
+
+
 </style>
 
-<card style="color: {fgcolor}; background-color: {bgcolor};" on:mouseover={highlightCandidates(row,col)}>{card.rank}</card>
+<card id="card_{row}_{col}"
+      style="color: {fgcolor}; background-color: {bgcolor};"
+      on:mouseover={highlightCandidates(row,col)}
+      on:mouseout={unhighlightCandidates(row,col)}>{card.rank}</card>
