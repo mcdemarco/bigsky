@@ -2,13 +2,11 @@
 
 <script>
   export let row, col;
-  import { layout, lookup } from './stores'
+  import { ranks, layout, lookup } from './stores'
 
   {$lookup}
 
   let lower, higher;
-
-  //console.log($lookup);
 
   const palette = ["#FF5050", "#FF9122", "#FBE426", "#1CBE4F", "#2ED9FF", "#DEA0FD",
 		   "#FA0087", "#C4451C", "#F7E1A0", "#1C8356", "#3283FE", "#AA0DFE",
@@ -38,20 +36,50 @@
     //Highlight the candidate cards or spaces
     let card = $layout[row][col];
     let neighbors = $lookup[card.suit][card.rank];
-    console.log("Moused over " + JSON.stringify(card) + " " + JSON.stringify(neighbors));
+    let lower, higher, lowerer, higherer;
+    //console.log("Moused over " + JSON.stringify(card) + " " + JSON.stringify(neighbors));
+    hoverCard([row,col]);
     if (neighbors.card) {
       //Not present for blanks.
-      document.querySelectorAll("card").forEach(item => item.classList.add("fade"));
-      document.querySelector("#card_" + neighbors.card[0] + "_" + neighbors.card[1]).classList.add("hover");
+      if (neighbors.lower) {
+	highlightCard(neighbors.lower,"lower");
+      }
+      if (neighbors.higher) {
+	highlightCard(neighbors.higher, "higher");
+      }
+    } else {
+      //Highlight candidates for blanks.
+      if (col > 0) {
+	lower = $layout[row][col - 1];
+	if (lower.rank > 0) {
+	  //Not a blank, so highlight its higher.
+	  //$ranks is a special case; highlight shift or more cards.
+	  lowerer = $lookup[lower.suit][lower.rank];
+	  if (lowerer.higher)
+	    highlightCard(lowerer.higher, "lower");
+	}
+      }
+      if (col < $ranks - 1) {
+	higher = $layout[row][col + 1];
+	if (higher.rank > 0) {
+	  //Not a blank, so highlight its lower.
+	  higherer = $lookup[higher.suit][higher.rank];
+	  if (higherer.lower)
+	    highlightCard(higherer.lower, "higher");
+	}
+      }
     }
-    if (neighbors.lower) {
-      document.querySelector("#card_" + neighbors.lower[0] + "_" + neighbors.lower[1]).classList.remove("fade");
-      document.querySelector("#card_" + neighbors.lower[0] + "_" + neighbors.lower[1]).classList.add("lower");
-    }
-    if (neighbors.higher) {
-      document.querySelector("#card_" + neighbors.higher[0] + "_" + neighbors.higher[1]).classList.remove("fade");
-      document.querySelector("#card_" + neighbors.higher[0] + "_" + neighbors.higher[1]).classList.add("higher");
-    }
+
+  }
+
+  const highlightCard = (card, type) => {
+    document.querySelector("#card_" + card[0] + "_" + card[1]).classList.remove("fade");
+    document.querySelector("#card_" + card[0] + "_" + card[1]).classList.add(type);
+  }
+
+  const hoverCard = card => {
+    document.querySelectorAll("card").forEach(item => item.classList.add("fade"));
+    document.querySelector("#card_" + card[0] + "_" + card[1]).classList.add("hover");
   }
 
   const unhighlightCandidates = event => {
