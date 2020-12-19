@@ -254,10 +254,16 @@ div.waste {
   card.higher {
     border-color: maroon!important;
   }
+  card.shift {
+    border-color: red!important;
+  }
   card.hover {
     border-color: #555!important;;
     opacity: 1 !important;
   }
   card.fade {
     opacity: 0.5;
+  }
+  vbutton.show {
+    display:block!important;
   }

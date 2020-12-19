@@ -19,7 +19,7 @@
 {#each $layout as row, r}
   <row>
   {#each row as card, c (card)}
-    <Card row={r} col={c} />
+    <Card row={r} col={c} {shift} />
   {/each}
   </row>
 {/each}
